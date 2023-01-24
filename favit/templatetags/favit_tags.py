@@ -25,12 +25,14 @@ def favorite_button(context, target):
         undo = True
 
     context = flatten_context(context)
-    context.update({
-        'target_model': target_model,
-        'target_object_id': target.id,
-        'undo': undo,
-        'fav_count': Favorite.objects.for_object(target).count()
-    })
+    context.update(
+        {
+            'target_model': target_model,
+            'target_object_id': target.id,
+            'undo': undo,
+            'fav_count': Favorite.objects.for_object(target).count(),
+        }
+    )
 
     return render_to_string('favit/button.html', context)
 
@@ -49,10 +51,12 @@ def unfave_button(context, target):
     target_model = '.'.join((target._meta.app_label, target._meta.object_name))
 
     context = flatten_context(context)
-    context.update({
-        'target_model': target_model,
-        'target_object_id': target.id,
-    })
+    context.update(
+        {
+            'target_model': target_model,
+            'target_object_id': target.id,
+        }
+    )
     return render_to_string('favit/unfave-button.html', context)
 
 
@@ -83,7 +87,7 @@ def favorites_count(obj):
     return Favorite.objects.for_object(obj).count()
 
 
-@register.assignment_tag
+@register.simple_tag
 def user_favorites(user, app_model=None):
     """
     Usage:
@@ -108,7 +112,7 @@ def user_favorites(user, app_model=None):
     return Favorite.objects.for_user(user, app_model)
 
 
-@register.assignment_tag
+@register.simple_tag
 def model_favorites(app_model):
     """
     Gets all favorited objects that are instances of a model
