@@ -13,7 +13,7 @@ def favorite_button(context, target):
     user = context['request'].user
 
     # do nothing when user isn't authenticated
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return ''
 
     target_model = '.'.join((target._meta.app_label, target._meta.object_name))
@@ -42,7 +42,7 @@ def unfave_button(context, target):
     user = context['request'].user
 
     # do nothing when user isn't authenticated
-    if not user.is_authenticated():
+    if not user.is_authenticated:
         return ''
 
     if Favorite.objects.get_favorite(user, target) is None:
