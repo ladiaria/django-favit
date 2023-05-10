@@ -5,12 +5,13 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 
 from .models import Favorite
+from .utils import is_xhr
 
 
 @login_required
 def add_or_remove(request):
 
-    if not request.is_ajax():
+    if not is_xhr(request):
         return HttpResponseNotAllowed([])
 
     user = request.user
@@ -44,7 +45,7 @@ def add_or_remove(request):
 @login_required
 def remove(request):
 
-    if not request.is_ajax():
+    if not is_xhr(request):
         return HttpResponseNotAllowed([])
 
     user = request.user
